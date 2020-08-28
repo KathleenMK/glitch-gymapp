@@ -1,0 +1,49 @@
+{{#each assessments}}
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Weight</th>
+      <th>Chest</th>
+      <th>Thigh</th>
+      <th>Upper Arm</th>
+      <th>Waist</th>
+      <th>Hips</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      <tr>
+        <td>
+          {{weight}}
+        </td>
+        <td>
+          {{chest}}
+        </td>
+        <td>
+          {{thigh}}
+        </td>
+        <td>
+          {{upperArm}}
+        </td>
+        <td>
+          {{waist}}
+        </td>
+        <td>
+          {{hips}}
+        </td>
+        <td>
+          {{comment}}
+        </td>
+    </tr>
+  </tbody>
+</table>
+     <form class="ui form" action="/trainerassessments/assessmentupdate/{{id}}" method="POST">
+            <div class="field">
+                <label>Comments</label>
+                <input placeholder="" type="text" name="comment">
+            </div>
+            <button class="ui blue submit button">Update</button>
+        </form>
+    {{/each}}
+  

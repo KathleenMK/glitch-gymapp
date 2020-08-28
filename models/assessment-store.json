@@ -1,0 +1,15 @@
+{
+  "assessmentCollection": [
+    {
+      "id": "5c26d8e0-e91b-11ea-ac83-61befd7cfea2",
+      "userid": "5999ed70-e910-11ea-873f-c34152d9f7e9",
+      "weight": "10",
+      "chest": "",
+      "thigh": "",
+      "upperArm": "",
+      "waist": "",
+      "hips": "",
+      "comment": "another test"
+    }
+  ]
+}

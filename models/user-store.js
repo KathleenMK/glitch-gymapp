@@ -15,6 +15,17 @@ const userStore = {
     this.store.add(this.collection, user);
     this.store.save();
   },
+  
+  updateUser(user, updatedUser) {
+    user.name = updatedUser.name;
+    user.gender = updatedUser.gender;
+    user.email = updatedUser.email;
+    user.password = updatedUser.password;
+    user.address = updatedUser.address;
+    user.height = updatedUser.height;
+    user.startingWeight = updatedUser.startingWeight;
+    this.store.save();
+  },
 
   getUserById(id) {
     return this.store.findOneBy(this.collection, { id: id });
@@ -22,7 +33,13 @@ const userStore = {
 
   getUserByEmail(email) {
     return this.store.findOneBy(this.collection, { email: email });
-  }
+  },
+  
+  deleteUser(id) {
+    const user = this.getUserById(id);
+    this.store.remove(this.collection, user);
+    this.store.save();
+  },
 };
 
 module.exports = userStore;

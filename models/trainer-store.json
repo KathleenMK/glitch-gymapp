@@ -1,0 +1,14 @@
+{
+  "trainers": [
+    {
+      "name": "Trainer Trainer",
+      "email": "trainer@gmail.com",
+      "password": "pop"
+    },
+    {
+      "name": "Trainer Trainer",
+      "email": "toptrainer@gmail.com",
+      "password": "pop"
+    }
+  ]
+}

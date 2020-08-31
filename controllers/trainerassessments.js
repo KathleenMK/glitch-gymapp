@@ -14,7 +14,7 @@ const trainerassessments = {
     const user = users.getUserById(userId);
     const viewData = {
       title: "Trainer Dashboard",
-      assessments: assessmentStore.getUserAssessments(userId),
+      assessments: assessmentStore.getUserAssessments(userId).reverse(),
       userName: user.name,
       userId: userId,
       BMI: analytics.calculateBMI(user),
@@ -24,7 +24,7 @@ const trainerassessments = {
     };
     response.render("trainerassessments", viewData);
   },
-  
+
   updateComment(request, response) {
     const userId = request.params.userid;
     logger.info("trainerassessments comment");
@@ -32,10 +32,7 @@ const trainerassessments = {
     const newComment = request.body.comment;
     assessmentStore.updateComment(assessment, newComment);
     response.redirect("/trainerdashboard");
-  
-  
-}
-  
+  }
 };
 
 module.exports = trainerassessments;

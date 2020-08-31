@@ -11,43 +11,58 @@ const dashboard = {
     logger.info("dashboard rendering");
     const loggedInUser = accounts.getCurrentUser(request);
     const viewData = {
-      title: "Template 1 Dashboard",
-      assessments: assessmentStore.getUserAssessments(loggedInUser.id),
+      title: "Dashboard",
+      assessments: assessmentStore
+        .getUserAssessments(loggedInUser.id)
+        .reverse(),
       userName: loggedInUser.name,
       BMI: analytics.calculateBMI(loggedInUser),
-      BMICategory: analytics.determineBMICategory(analytics.calculateBMI(loggedInUser)),
+      BMICategory: analytics.determineBMICategory(
+        analytics.calculateBMI(loggedInUser)
+      ),
       idealWeight: analytics.getIdealWeight(loggedInUser),
       idealWeightInd: analytics.getIsIdealBodyWeightInd(loggedInUser)
-           
+
       //currentWeight: loggedInUser.startingWeight
     };
+    assessmentStore.calculateUserTrend(loggedInUser.id, loggedInUser.startingWeight);
     response.render("dashboard", viewData);
   },
 
   addAssessment(request, response) {
     logger.info("adding assessment");
     const loggedInUser = accounts.getCurrentUser(request);
+    //assessmentStore.calculateUserTrend(loggedInUser.id);
+    const date = new Date();
     const newAssessment = {
       id: uuid.v1(),
       userid: loggedInUser.id,
+      date: date.toUTCString(),
       weight: request.body.weight,
       chest: request.body.chest,
       thigh: request.body.thigh,
       upperArm: request.body.upperArm,
       waist: request.body.waist,
       hips: request.body.hips,
-      comment:""
+      trend: "",
+      comment: ""
     };
     assessmentStore.addAssessment(newAssessment);
+    
     response.redirect("/dashboard");
   },
 
   deleteAssessment(request, response) {
+    const loggedInUser = accounts.getCurrentUser(request);
+    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const assessmentId = request.params.id;
     logger.info(`Deleting assessment ${assessmentId}`);
     assessmentStore.removeAssessment(assessmentId);
+    //assessmentStore.calculateUserTrend(loggedInUser.id, loggedInUser.startingWeight);
     response.redirect("/dashboard");
-  }
+  },
+
+  
 };
 
 module.exports = dashboard;

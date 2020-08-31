@@ -6,7 +6,7 @@ const logger = require("../utils/logger");
 
 const assessmentListStore = {
   store: new JsonStore("./models/assessment-store.json", {
-    assessmentCollection: [],
+    assessmentCollection: []
   }),
   collection: "assessmentCollection",
 
@@ -33,22 +33,45 @@ const assessmentListStore = {
   getUserAssessments(userid) {
     return this.store.findBy(this.collection, { userid: userid });
   },
-  
-  getUserCountAssessments(userid){
-  return  assessmentListStore.getUserAssessments(userid).length;
+
+  getUserCountAssessments(userid) {
+    return assessmentListStore.getUserAssessments(userid).length;
   },
-  
-  getUserLatestAssessment(userid){
-   return assessmentListStore.getUserAssessments(userid)[assessmentListStore.getUserCountAssessments(userid)-1];
+
+  getUserLatestAssessment(userid) {
+    return assessmentListStore.getUserAssessments(userid)[
+      assessmentListStore.getUserCountAssessments(userid) - 1
+    ];
   },
-  
-  updateComment(assessment, newComment){
+
+  updateComment(assessment, newComment) {
     logger.info("updating the comment from store");
     assessment.comment = newComment;
     this.store.save();
-    
-    
-    
+  },
+
+  calculateUserTrend(userid, userStartingWeight) {
+    logger.info("calculating user assessment trends");
+    const assessments = assessmentListStore.getUserAssessments(userid);
+    if (assessments.length > 0) {
+      if (parseFloat(assessments[0].weight) <= parseFloat(userStartingWeight)) {
+        assessments[0].trend = true;
+      } else {
+        assessments[0].trend = false;
+      }
+
+      for (let i = 1; i < assessments.length; i++) {
+        if (
+          parseFloat(assessments[i].weight) <=
+          parseFloat(assessments[i - 1].weight)
+        ) {
+          assessments[i].trend = true;
+        } else {
+          assessments[i].trend = false;
+        }
+      }
+      this.store.save();
+    }
   }
 };
 

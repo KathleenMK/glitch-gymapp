@@ -7,8 +7,18 @@
       "password": "boom",
       "address": "",
       "height": "1.68",
-      "startingWeight": "45",
+      "startingWeight": "1",
       "id": "5999ed70-e910-11ea-873f-c34152d9f7e9"
+    },
+    {
+      "name": "Fionn McCarthy Kelleher ",
+      "gender": "Male",
+      "email": "fionn@gmail.com",
+      "password": "boom",
+      "address": "76 First",
+      "height": "1.1",
+      "startingWeight": "45",
+      "id": "ea7a3100-e9cf-11ea-8ca3-0deceba08c7a"
     }
   ]
 }

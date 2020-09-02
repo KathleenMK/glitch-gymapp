@@ -2,6 +2,7 @@
 
 const logger = require("../utils/logger");
 const assessmentStore = require("../models/assessment-store");
+const goalStore = require("../models/goal-store");
 const accounts = require("./accounts.js");
 const uuid = require("uuid");
 const analytics = require("../utils/analytics");
@@ -12,6 +13,7 @@ const trainerassessments = {
     logger.info("trainerassessments rendering");
     const userId = request.params.id;
     const user = users.getUserById(userId);
+    const date = new Date();
     const viewData = {
       title: "Trainer Dashboard",
       assessments: assessmentStore.getUserAssessments(userId).reverse(),
@@ -20,7 +22,11 @@ const trainerassessments = {
       BMI: analytics.calculateBMI(user),
       BMICategory: analytics.determineBMICategory(analytics.calculateBMI(user)),
       idealWeight: analytics.getIdealWeight(user),
-      idealWeightInd: analytics.getIsIdealBodyWeightInd(user)
+      idealWeightInd: analytics.getIsIdealBodyWeightInd(user),
+      goals: goalStore.getUserGoals(userId),  //same as dashboard index
+      openGoals:goalStore.getUserOpenGoals(userId),  //same as dashboard index
+      closedGoals:goalStore.getUserClosedGoals(userId),  //same as dashboard index
+      todaysDate: date
     };
     response.render("trainerassessments", viewData);
   },

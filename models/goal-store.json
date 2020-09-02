@@ -1,0 +1,30 @@
+{
+  "goalCollection": [
+    {
+      "id": "e3eac7b0-ed07-11ea-8f8f-21daf1d79e10",
+      "userid": "5999ed70-e910-11ea-873f-c34152d9f7e9",
+      "date": "Wed Sep 02 2020",
+      "measurement": "weight",
+      "target": "56",
+      "targetDate": "September 9, 2020",
+      "startingMeasurement": "59",
+      "daysRemaining": 7,
+      "percentTargetAchieved": 100,
+      "status": "achieved",
+      "comment": ""
+    },
+    {
+      "id": "34a78ca0-ed4a-11ea-80b2-77252b2bb9ac",
+      "userid": "5999ed70-e910-11ea-873f-c34152d9f7e9",
+      "date": "Wed Sep 02 2020",
+      "measurement": "chest",
+      "target": "89",
+      "targetDate": "September 8, 2020",
+      "startingMeasurement": "",
+      "daysRemaining": 6,
+      "percentTargetAchieved": "",
+      "status": "open",
+      "comment": ""
+    }
+  ]
+}

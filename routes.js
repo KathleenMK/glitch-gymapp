@@ -29,5 +29,8 @@ router.post("/updateuser/:userid", settings.update);
 
 router.post("/dashboard/addassessment", dashboard.addAssessment);
 router.get("/dashboard/deleteassessment/:id", dashboard.deleteAssessment);
+router.post("/dashboard/addgoal", dashboard.addGoal);
+router.get("/dashboard/deletegoal/:id", dashboard.deleteGoal);
+
 
 module.exports = router;

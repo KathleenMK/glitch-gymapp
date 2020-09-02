@@ -1,0 +1,49 @@
+
+<div class="ui accordion">
+  <div class="title">
+    <button class="ui blue basic button"><i class="dropdown icon"></i>
+      Create a New Goal</button>
+  </div>  
+<!-- end of div title   -->
+  <div class="content">
+    <form class="ui stacked segment form" action="/dashboard/addgoal" method="POST">
+       <div class="three fields">
+          <div class="field">
+            <label>Measurement</label>
+              <div class="ui selection dropdown">
+                <input type="hidden" name="measurement">
+                 <i class="dropdown icon"></i>
+                  <div class="default text">Measurement</div>
+                  <div class="menu">
+                    <div class="item" data-value="weight">Weight</div>
+                    <div class="item" data-value="chest">Chest</div>
+                    <div class="item" data-value="thigh">Thigh</div>
+                    <div class="item" data-value="upperArm">Upper Arm</div>
+                    <div class="item" data-value="waist">Waist</div>
+                    <div class="item" data-value="hips">Hips</div>
+                      <script>$('.selection.dropdown').dropdown();</script>
+                  </div>
+              </div>
+          </div>
+          <div class="field">
+            <label>Target Value</label>
+              <input placeholder="0" type="text" name="target">
+          </div>
+          <div class="field">
+            <label>Target Date</label>
+              <div class="ui calendar">
+                <div class="ui input left icon">
+                  <i class="calendar icon"></i>
+                    <input type="text" placeholder="Pick up a date" name="targetDate">
+                </div> 
+                  <script>$('.ui.calendar').calendar({type: 'date'});</script>
+              </div>
+          </div>
+     </div>
+      <!-- end of div three fields   -->
+    <button class="ui blue submit button">Commit Goal</button>
+    </form>
+      <script>$('.ui.accordion').accordion();</script>
+  </div>
+</div>
+  

@@ -44,6 +44,25 @@ const assessmentListStore = {
     ];
   },
 
+  getUserLatestMeasurement(userid, measurement) {
+    const latestAssessment = assessmentListStore.getUserLatestAssessment(
+      userid
+    );
+    if (measurement === "weight") {
+      return latestAssessment.weight;
+    } else if (measurement === "chest") {
+      return latestAssessment.chest;
+    } else if (measurement === "thigh") {
+      return latestAssessment.thigh;
+    } else if (measurement === "upperArm") {
+      return latestAssessment.upperArm;
+    } else if (measurement === "waist") {
+      return latestAssessment.waist;
+    } else if (measurement === "hips") {
+      return latestAssessment.hips;
+    }
+  },
+
   updateComment(assessment, newComment) {
     logger.info("updating the comment from store");
     assessment.comment = newComment;

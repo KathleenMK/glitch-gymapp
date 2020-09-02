@@ -1,3 +1,11 @@
+<div class="ui accordion">
+  <div class="title">
+    <button class="ui blue basic button"><i class="dropdown icon"></i>
+      Add a New Assessment</button>
+    
+  </div>
+  <div class="content">
+
 <form class="ui stacked segment form" action="/dashboard/addassessment" method="POST">
    <div class="three fields">
             <div class="field">
@@ -29,3 +37,9 @@
         </div>
         <button class="ui blue submit button">Add Assessment</button>
 </form>
+    
+     <script>$('.ui.accordion')
+  .accordion()
+;</script>
+</div>
+

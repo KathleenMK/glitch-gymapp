@@ -23,11 +23,23 @@ const trainerassessments = {
       BMICategory: analytics.determineBMICategory(analytics.calculateBMI(user)),
       idealWeight: analytics.getIdealWeight(user),
       idealWeightInd: analytics.getIsIdealBodyWeightInd(user),
-      goals: goalStore.getUserGoals(userId),  //same as dashboard index
-      openGoals:goalStore.getUserOpenGoals(userId),  //same as dashboard index
-      closedGoals:goalStore.getUserClosedGoals(userId),  //same as dashboard index
+      goals: goalStore.getUserGoals(userId), //same as dashboard index
+      openGoals: goalStore.getUserOpenGoals(userId), //same as dashboard index
+      closedGoals: goalStore.getUserClosedGoals(userId), //same as dashboard index
       todaysDate: date
     };
+    //goal method same as dashboard
+    goalStore.daysRemaining(userId);
+    if (assessmentStore.getUserCountAssessments(userId) > 0) {
+      goalStore.calcPercentTargetAchieved(
+        userId,
+        assessmentStore.getUserLatestAssessment(userId)
+      );
+      goalStore.calcStatus(
+        userId,
+        assessmentStore.getUserLatestAssessment(userId)
+      );
+    }
     response.render("trainerassessments", viewData);
   },
 
@@ -38,6 +50,46 @@ const trainerassessments = {
     const newComment = request.body.comment;
     assessmentStore.updateComment(assessment, newComment);
     response.redirect("/trainerdashboard");
+  },
+
+  //same as dashboard
+  addGoal(request, response) {
+    logger.info("adding goal");
+    const userId = request.params.userid;
+    const lastAssessment = assessmentStore.getUserLatestAssessment(userId);
+    //const measurement = request.body.measurement;
+    //assessmentStore.calculateUserTrend(loggedInUser.id);
+    const date = new Date();
+    const newGoal = {
+      id: uuid.v1(),
+      userid: userId,
+      date: date.toDateString(),
+      measurement: request.body.measurement,
+      target: request.body.target,
+      targetDate: request.body.targetDate,
+      //lastAssessment : assessmentStore.getUserLatestAssessment(loggedInUser.id),
+      startingMeasurement: trainerassessments.startingMeasurement(
+        userId,
+        request.body.measurement
+      ),
+      daysRemaining: "",
+      percentTargetAchieved: "",
+      status: "open",
+      comment: ""
+    };
+    goalStore.addGoal(newGoal);
+
+    response.redirect("/trainerassessments/" + userId);
+  },
+
+  startingMeasurement(userid, measurement) {
+    if (assessmentStore.getUserCountAssessments(userid) > 0) {
+      return assessmentStore.getUserLatestMeasurement(userid, measurement);
+    } else if (measurement === "weight") {
+      return users.getUserById(userid).startingWeight;
+    } else {
+      return 0;
+    }
   }
 };
 

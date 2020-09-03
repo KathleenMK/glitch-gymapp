@@ -1,32 +1,30 @@
 
 <div class="ui cards">
   {{#each openGoals}}
-<div class="ui card">
-  <div class="content">
-    <div class="header"><span class="ui green text">Goal: {{measurement}} of {{target}}</span></div>
-  </div>
-  <div class="content">
-    <h4 class="ui sub header">{{status}}</h4>
-    <div class="ui small feed">
+    <div class="ui card">
+      <div class="content">
+        <div class="header"><span class="ui green text">Goal: {{measurement}} of {{target}}</span></div>
+      </div>
+      <div class="content">
+        <h4 class="ui sub header">{{status}}</h4>
+      <div class="ui small feed">
+        <div class="event">
+          <div class="content">
+            <div class="summary">
+             Created {{date}}
+            </div>
+          </div>
+        </div>
        <div class="event">
         <div class="content">
           <div class="summary">
-             Created {{date}}
+            {{#if percentTargetAchieved}}
+              {{percentTargetAchieved}}% of target achieved
+            {{/if}}
           </div>
         </div>
-      </div>
-      
-      <div class="event">
-        <div class="content">
-          <div class="summary">
-              {{#if percentTargetAchieved}}
-        {{percentTargetAchieved}}% of target achieved
-                {{/if}}
-           
-          </div>
-        </div>
-      </div>
-     <div class="event">
+       </div>
+       <div class="event">
         <div class="content">
           <div class="summary">
              {{daysRemaining}} days remaining.
@@ -41,7 +39,7 @@
     </a>
   </div>
 </div>
-  {{/each}}
+{{/each}}
 </div>
 
 
@@ -52,72 +50,35 @@
   <div class="ui card">
 <div class="ui accordion">
   <div class="title">
-    
 <!-- title of the accordion card is the title and a status sub header     -->
     <div class="ui card">
-  <div class="content">
-     
-    <div class="ui small header"><i class="dropdown icon"></i><a>Goal {{status}}: {{measurement}} of {{target}}</a></div>
-  </div>
-  
+    <div class="content">
+      <div class="ui small header"><i class="dropdown icon"></i><a>Goal {{status}}: {{measurement}} of {{target}}</a></div>
+    </div>
     </div>
   </div>
 <!-- end of div title   -->
   <div class="content">
-<!--form was the content      -->
     <div class="ui card">
-      
-        
-     
       <div class="content">
         <div class="ui list">
-  <div class="item">Created {{date}}</div>
-  <div class="item">{{#if percentTargetAchieved}}
-        {{percentTargetAchieved}}% of target achieved
-                {{/if}}</div>
-  <div class="item">{{daysRemaining}} days remaining</div>
-</div>
-      </div>
-<!--     <div class="content">
-    <h4 class="ui sub header">created {{date}}</h4>
-    <div class="ui small feed">
-       <div class="event">
-        <div class="content">
-          <div class="summary">
-             <a>{{status}}</a>
-          </div>
+          <div class="item">Created {{date}}</div>
+          <div class="item">{{#if percentTargetAchieved}}
+                              {{percentTargetAchieved}}% of target achieved
+                            {{/if}}</div>
+          <div class="item">{{daysRemaining}} days remaining</div>
         </div>
       </div>
-      
-      <div class="event">
-        <div class="content">
-          <div class="summary">
-              {{#if percentTargetAchieved}}
-        <a>{{percentTargetAchieved}}%</a> of target achieved
-                {{/if}}
-           
-          </div>
-        </div>
-      </div>
-     <div class="event">
-        <div class="content">
-          <div class="summary">
-             <a>{{daysRemaining}}</a> days remaining.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="extra content">
     <a href="/dashboard/deletegoal/{{id}}" class="ui icon button">
       <i class="icon trash"></i>
     </a>
   </div>
 </div>
-      <script>$('.ui.accordion').accordion();</script>
+  <script>$('.ui.accordion').accordion();</script>
   </div>
 </div>
   </div>
-   {{/each}}
- </div>
+{{/each}}
+</div>
   

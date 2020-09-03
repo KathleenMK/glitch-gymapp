@@ -20,8 +20,9 @@ router.post("/authenticate", accounts.authenticate);
 router.get("/dashboard", dashboard.index);
 router.get("/trainerdashboard", trainerdashboard.index);
 router.get("/trainerdashboard/deleteuser/:id", trainerdashboard.deleteUser);
-router.get("/trainerdashboard/trainerassessments/:id", trainerassessments.index);
+router.get("/trainerassessments/:id", trainerassessments.index);
 router.post("/trainerassessments/assessmentupdate/:id", trainerassessments.updateComment);
+router.post("/trainerassessments/:userid/addgoal", trainerassessments.addGoal);
 router.get("/about", about.index);
 
 router.get("/settings", settings.index);

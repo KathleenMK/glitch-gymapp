@@ -20,20 +20,18 @@ const trainerdashboard = {
       //BMICategory: analytics.determineBMICategory(analytics.calculateBMI(loggedInUser)),
       //idealWeight: analytics.getIdealWeight(loggedInUser),
       //idealWeightInd: analytics.getIsIdealBodyWeightInd(loggedInUser)
-           
+
       //currentWeight: loggedInUser.startingWeight
     };
     response.render("trainerdashboard", viewData);
   },
-  
+
   deleteUser(request, response) {
     const userId = request.params.id;
     logger.info(`Deleting user ${userId}`);
     users.deleteUser(userId);
     response.redirect("/trainerdashboard");
   }
-
-  
 };
 
 module.exports = trainerdashboard;

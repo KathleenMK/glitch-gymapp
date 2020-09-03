@@ -33,28 +33,28 @@ const goalListStore = {
   getUserGoals(userid) {
     return this.store.findBy(this.collection, { userid: userid });
   },
-  
-    getUserOpenGoals(userid) {
-      const goals = goalListStore.getUserGoals(userid);
-      const openGoals = [];
-      for (let i = 0; i < goals.length; i++) {
+
+  getUserOpenGoals(userid) {
+    const goals = goalListStore.getUserGoals(userid);
+    const openGoals = [];
+    for (let i = 0; i < goals.length; i++) {
       if (goals[i].status === "open") {
         openGoals.push(goals[i]);
       }
-      }
-        
+    }
+
     return openGoals;
   },
-  
+
   getUserClosedGoals(userid) {
-      const goals = goalListStore.getUserGoals(userid);
-      const closedGoals = [];
-      for (let i = 0; i < goals.length; i++) {
+    const goals = goalListStore.getUserGoals(userid);
+    const closedGoals = [];
+    for (let i = 0; i < goals.length; i++) {
       if (goals[i].status !== "open") {
         closedGoals.push(goals[i]);
       }
-      }
-        
+    }
+
     return closedGoals;
   },
 

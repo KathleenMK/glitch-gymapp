@@ -14,48 +14,47 @@
     </tr>
   </thead>
   <tbody>
-    
-      <tr>
-         <td>
-          {{date}}
-        </td>
-        <td>
-          {{weight}}
-        </td>
-        <td>
-          {{chest}}
-        </td>
-        <td>
-          {{thigh}}
-        </td>
-        <td>
-          {{upperArm}}
-        </td>
-        <td>
-          {{waist}}
-        </td>
-        <td>
-          {{hips}}
-        </td>
-         <td>
-           {{#if trend}}
-        <i class="big green arrow down icon"></i>
+    <tr>
+      <td>
+        {{date}}
+      </td>
+      <td>
+        {{weight}}
+      </td>
+      <td>
+        {{chest}}
+      </td>
+      <td>
+        {{thigh}}
+      </td>
+      <td>
+        {{upperArm}}
+      </td>
+      <td>
+        {{waist}}
+      </td>
+      <td>
+        {{hips}}
+      </td>
+      <td>
+        {{#if trend}}
+          <i class="ui green tag label"></i>
         {{else}}
-        <i class="big red arrow up icon"></i>
+          <i class="ui red tag label"></i>
         {{/if}}
-        </td>
-        <td>
-          {{comment}}
-        </td>
+      </td>
+      <td>
+        {{comment}}
+      </td>
     </tr>
   </tbody>
 </table>
-     <form class="ui form" action="/trainerassessments/assessmentupdate/{{id}}" method="POST">
-            <div class="field">
-                <label>Comments</label>
-                <input placeholder="" type="text" name="comment">
-            </div>
-            <button class="ui blue submit button">Update</button>
-        </form>
-    {{/each}}
+  <form class="ui form" action="/trainerassessments/assessmentupdate/{{id}}" method="POST">
+    <div class="field">
+      <label>Comments</label>
+      <input placeholder="" type="text" name="comment">
+    </div>
+    <button class="ui blue submit button">Update</button>
+  </form>
+{{/each}}
   

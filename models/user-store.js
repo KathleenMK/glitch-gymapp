@@ -2,6 +2,7 @@
 
 const _ = require("lodash");
 const JsonStore = require("./json-store");
+const logger = require("../utils/logger");
 
 const userStore = {
   store: new JsonStore("./models/user-store.json", { users: [] }),
@@ -15,7 +16,7 @@ const userStore = {
     this.store.add(this.collection, user);
     this.store.save();
   },
-  
+
   updateUser(user, updatedUser) {
     user.name = updatedUser.name;
     user.gender = updatedUser.gender;
@@ -34,12 +35,18 @@ const userStore = {
   getUserByEmail(email) {
     return this.store.findOneBy(this.collection, { email: email });
   },
-  
+
   deleteUser(id) {
     const user = this.getUserById(id);
     this.store.remove(this.collection, user);
     this.store.save();
   },
+
+  updateCountAssessments(user, newCountAssessments) {
+    logger.info("updating the count of assessments for this user from store");
+    user.countAssessments = newCountAssessments;
+    this.store.save();
+  }
 };
 
 module.exports = userStore;

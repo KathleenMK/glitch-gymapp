@@ -29,6 +29,7 @@ const settings = {
     };
     logger.debug(`Updating User ${userId}`);
     userstore.updateUser(loggedInUser, updatedUser);
+
     response.redirect("/dashboard");
   }
 };

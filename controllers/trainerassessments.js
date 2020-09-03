@@ -14,32 +14,20 @@ const trainerassessments = {
     const userId = request.params.id;
     const user = users.getUserById(userId);
     const date = new Date();
+    analytics.recalcGoalStats(user); //goal stats impact on display, therefore calculated prior to viewData being created
     const viewData = {
       title: "Trainer Dashboard",
       assessments: assessmentStore.getUserAssessments(userId).reverse(),
       userName: user.name,
       userId: userId,
-      BMI: analytics.calculateBMI(user),
-      BMICategory: analytics.determineBMICategory(analytics.calculateBMI(user)),
-      idealWeight: analytics.getIdealWeight(user),
-      idealWeightInd: analytics.getIsIdealBodyWeightInd(user),
-      goals: goalStore.getUserGoals(userId), //same as dashboard index
-      openGoals: goalStore.getUserOpenGoals(userId), //same as dashboard index
+      userAnalytics: analytics.getAnalytics(user), //object of all stats returned, replacing a call for each
+      //goals: goalStore.getUserGoals(userId), //same as dashboard index
+      openGoals: goalStore.getUserOpenGoals(userId),
+      //splitting out the open goals to display differently
       closedGoals: goalStore.getUserClosedGoals(userId), //same as dashboard index
       todaysDate: date
     };
-    //goal method same as dashboard
-    goalStore.daysRemaining(userId);
-    if (assessmentStore.getUserCountAssessments(userId) > 0) {
-      goalStore.calcPercentTargetAchieved(
-        userId,
-        assessmentStore.getUserLatestAssessment(userId)
-      );
-      goalStore.calcStatus(
-        userId,
-        assessmentStore.getUserLatestAssessment(userId)
-      );
-    }
+
     response.render("trainerassessments", viewData);
   },
 
@@ -57,8 +45,6 @@ const trainerassessments = {
     logger.info("adding goal");
     const userId = request.params.userid;
     const lastAssessment = assessmentStore.getUserLatestAssessment(userId);
-    //const measurement = request.body.measurement;
-    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const date = new Date();
     const newGoal = {
       id: uuid.v1(),
@@ -75,7 +61,7 @@ const trainerassessments = {
       daysRemaining: "",
       percentTargetAchieved: "",
       status: "open",
-      comment: ""
+      addedBy: "trainer"
     };
     goalStore.addGoal(newGoal);
 

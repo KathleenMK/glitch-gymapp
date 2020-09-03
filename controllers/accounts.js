@@ -51,6 +51,7 @@ const accounts = {
         logger.info(`logging in ${user.email}`);
         response.redirect("/dashboard");
       } else {
+        logger.info(`password incorrect for ${user.email}`);
         response.redirect("/login");
       }
     } else if (trainer) {
@@ -59,9 +60,11 @@ const accounts = {
         logger.info(`logging in ${trainer.email}`);
         response.redirect("/trainerdashboard");
       } else {
+        logger.info(`password incorrect for ${trainer.email}`);
         response.redirect("/login");
       }
     } else {
+      logger.info(`user ${request.body.email} does not exist`);
       response.redirect("/login");
     }
   },

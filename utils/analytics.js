@@ -2,9 +2,20 @@
 
 const logger = require("./logger");
 const assessmentStore = require("../models/assessment-store");
+const goalStore = require("../models/goal-store");
 //const accounts = require("../controllers/accounts.js");
 
 const analytics = {
+  getAnalytics(user) {
+    const userAnalytics = {
+      BMI: analytics.calculateBMI(user),
+      BMICategory: analytics.determineBMICategory(analytics.calculateBMI(user)),
+      idealWeight: analytics.getIdealWeight(user),
+      idealWeightInd: analytics.getIsIdealBodyWeightInd(user)
+    };
+    return userAnalytics;
+  },
+
   calculateBMI(user) {
     let BMI = 0;
     if (user.height > 0) {
@@ -87,32 +98,56 @@ const analytics = {
       }
     }
   },
-  
+
   getIsIdealBodyWeightInd(user) {
-        if ((assessmentStore.getUserCountAssessments(user.id) > 0)) {
-            if (user.height > 0) {
-            if ((Math.abs(assessmentStore.getUserLatestAssessment(user.id)
-          .weight -
-                    analytics.getIdealWeight(user)) <= 0.2)) {
-                return true;
-            } else {
-                return false;
-            }
+    if (assessmentStore.getUserCountAssessments(user.id) > 0) {
+      if (user.height > 0) {
+        if (
+          Math.abs(
+            assessmentStore.getUserLatestAssessment(user.id).weight -
+              analytics.getIdealWeight(user)
+          ) <= 0.2
+        ) {
+          return true;
         } else {
-            return false;
+          return false;
         }
-        } else {
-             if ((user.height > 0) && (Math.abs(user.startingWeight -
-                analytics.getIdealWeight(user)) <= 0.2)) {
-            return true;
-        } else {
-            return false;
-        }
-        }
+      } else {
+        return false;
+      }
+    } else {
+      if (
+        user.height > 0 &&
+        Math.abs(user.startingWeight - analytics.getIdealWeight(user)) <= 0.2
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
-  
-  
-  
+  },
+
+  //recalcalculates the trend for the assessments display
+  recalcAssessmentsTrend(user) {
+    assessmentStore.calculateUserTrend(user.id, user.startingWeight);
+  },
+
+  //calculates the days remaining before the target date
+  //the status of the goal
+  //and the percentage target achieved
+  recalcGoalStats(user) {
+    goalStore.daysRemaining(user.id);
+    if (assessmentStore.getUserCountAssessments(user.id) > 0) {
+      goalStore.calcPercentTargetAchieved(
+        user.id,
+        assessmentStore.getUserLatestAssessment(user.id)
+      );
+      goalStore.calcStatus(
+        user.id,
+        assessmentStore.getUserLatestAssessment(user.id)
+      );
+    }
+  }
 };
 
 module.exports = analytics;

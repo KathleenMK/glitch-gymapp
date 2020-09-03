@@ -13,49 +13,27 @@ const dashboard = {
     logger.info("dashboard rendering");
     const loggedInUser = accounts.getCurrentUser(request);
     const date = new Date();
+    analytics.recalcGoalStats(loggedInUser); //goal stats impact on display, therefore calculated prior to viewData being created
+    analytics.recalcAssessmentsTrend(loggedInUser); //trend impacted by settings, adding or removing an assessment, included in index once instead of repeating
     const viewData = {
       title: "Dashboard",
       assessments: assessmentStore
         .getUserAssessments(loggedInUser.id)
-        .reverse(),
+        .reverse(), //showing latest assessment first
       userName: loggedInUser.name,
-      BMI: analytics.calculateBMI(loggedInUser),
-      BMICategory: analytics.determineBMICategory(
-        analytics.calculateBMI(loggedInUser)
-      ),
-      idealWeight: analytics.getIdealWeight(loggedInUser),
-      idealWeightInd: analytics.getIsIdealBodyWeightInd(loggedInUser),
-      goals: goalStore.getUserGoals(loggedInUser.id),
-      openGoals: goalStore.getUserOpenGoals(loggedInUser.id),
+      userAnalytics: analytics.getAnalytics(loggedInUser), //object of all stats returned
+      openGoals: goalStore.getUserOpenGoals(loggedInUser.id), //splitting out the open goals to display differently
       closedGoals: goalStore.getUserClosedGoals(loggedInUser.id),
       todaysDate: date
-
-      //currentWeight: loggedInUser.startingWeight
     };
-    assessmentStore.calculateUserTrend(
-      loggedInUser.id,
-      loggedInUser.startingWeight
-    );
-    goalStore.daysRemaining(loggedInUser.id);
-    if (assessmentStore.getUserCountAssessments(loggedInUser.id) > 0) {
-      goalStore.calcPercentTargetAchieved(
-        loggedInUser.id,
-        assessmentStore.getUserLatestAssessment(loggedInUser.id)
-      );
-      goalStore.calcStatus(
-        loggedInUser.id,
-        assessmentStore.getUserLatestAssessment(loggedInUser.id)
-      );
-    }
-    //else{goalStore.clearPercentTargetAchieved(loggedInUser.id)}
-
     response.render("dashboard", viewData);
   },
 
+  //adds an assessment using the inputs from the add assessment form
+  //also updates the users count of assessments for use in the trainer dashboard
   addAssessment(request, response) {
     logger.info("adding assessment");
     const loggedInUser = accounts.getCurrentUser(request);
-    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const date = new Date();
     const newAssessment = {
       id: uuid.v1(),
@@ -70,7 +48,6 @@ const dashboard = {
       trend: "",
       comment: ""
     };
-
     assessmentStore.addAssessment(newAssessment);
     users.updateCountAssessments(
       loggedInUser,
@@ -79,9 +56,10 @@ const dashboard = {
     response.redirect("/dashboard");
   },
 
+  //deletes an assessment
+  //also updates the users count of assessments for use in the trainer dashboard
   deleteAssessment(request, response) {
     const loggedInUser = accounts.getCurrentUser(request);
-    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const assessmentId = request.params.id;
     logger.info(`Deleting assessment ${assessmentId}`);
     assessmentStore.removeAssessment(assessmentId);
@@ -89,7 +67,6 @@ const dashboard = {
       loggedInUser,
       assessmentStore.getUserCountAssessments(loggedInUser.id)
     );
-    //assessmentStore.calculateUserTrend(loggedInUser.id, loggedInUser.startingWeight);
     response.redirect("/dashboard");
   },
 
@@ -99,8 +76,6 @@ const dashboard = {
     const lastAssessment = assessmentStore.getUserLatestAssessment(
       loggedInUser.id
     );
-    //const measurement = request.body.measurement;
-    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const date = new Date();
     const newGoal = {
       id: uuid.v1(),
@@ -109,7 +84,6 @@ const dashboard = {
       measurement: request.body.measurement,
       target: request.body.target,
       targetDate: request.body.targetDate,
-      //lastAssessment : assessmentStore.getUserLatestAssessment(loggedInUser.id),
       startingMeasurement: dashboard.startingMeasurement(
         loggedInUser.id,
         request.body.measurement
@@ -117,7 +91,7 @@ const dashboard = {
       daysRemaining: "",
       percentTargetAchieved: "",
       status: "open",
-      comment: ""
+      addedBy: ""
     };
     goalStore.addGoal(newGoal);
 
@@ -126,14 +100,13 @@ const dashboard = {
 
   deleteGoal(request, response) {
     const loggedInUser = accounts.getCurrentUser(request);
-    //assessmentStore.calculateUserTrend(loggedInUser.id);
     const goalId = request.params.id;
     logger.info(`Deleting goal ${goalId}`);
     goalStore.removeGoal(goalId);
-    //assessmentStore.calculateUserTrend(loggedInUser.id, loggedInUser.startingWeight);
     response.redirect("/dashboard");
   },
 
+  //starting measurement required for adding a goal, used to measure progress, if not available no % progress is shown
   startingMeasurement(userid, measurement) {
     if (assessmentStore.getUserCountAssessments(userid) > 0) {
       return assessmentStore.getUserLatestMeasurement(userid, measurement);

@@ -47,7 +47,11 @@
         <!-- title of the accordion card is the title and a status sub header     -->
           <div class="ui card">
             <div class="content">
-              <div class="ui small header"><i class="dropdown icon"></i><a>Goal {{status}}: {{measurement}} of {{target}}</a></div>
+               <div class="ui small header"><i class="dropdown icon"></i><a>Goal {{status}}: {{measurement}} of {{target}}</a>
+                {{#if achieved}}
+              <div class="right floated"><i class="star outline icon"></i></div>
+                {{/if}}
+              </div>
             </div>
           </div>
         </div>

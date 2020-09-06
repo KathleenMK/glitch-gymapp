@@ -22,8 +22,8 @@ const dashboard = {
         .reverse(), //showing latest assessment first
       userName: loggedInUser.name,
       userAnalytics: analytics.getAnalytics(loggedInUser), //object of all stats returned
-      openGoals: goalStore.getUserOpenGoals(loggedInUser.id), //splitting out the open goals to display differently
-      closedGoals: goalStore.getUserClosedGoals(loggedInUser.id),
+      openGoals: goalStore.getUserOpenGoals(loggedInUser.id).reverse(), //splitting out the open goals to display differently
+      closedGoals: goalStore.getUserClosedGoals(loggedInUser.id).reverse(),
       todaysDate: date
     };
     response.render("dashboard", viewData);
@@ -84,14 +84,15 @@ const dashboard = {
       measurement: request.body.measurement,
       target: request.body.target,
       targetDate: request.body.targetDate,
-      startingMeasurement: dashboard.startingMeasurement(
+      startingMeasurement: analytics.startingMeasurement(
         loggedInUser.id,
         request.body.measurement
-      ),
+      ), //starting measurement required for adding a goal, used to measure progress, if not available no % progress is shown
       daysRemaining: "",
       percentTargetAchieved: "",
       status: "open",
-      addedBy: ""
+      addedBy: "",
+      achieved: false
     };
     goalStore.addGoal(newGoal);
 
@@ -104,17 +105,6 @@ const dashboard = {
     logger.info(`Deleting goal ${goalId}`);
     goalStore.removeGoal(goalId);
     response.redirect("/dashboard");
-  },
-
-  //starting measurement required for adding a goal, used to measure progress, if not available no % progress is shown
-  startingMeasurement(userid, measurement) {
-    if (assessmentStore.getUserCountAssessments(userid) > 0) {
-      return assessmentStore.getUserLatestMeasurement(userid, measurement);
-    } else if (measurement === "weight") {
-      return users.getUserById(userid).startingWeight;
-    } else {
-      return 0;
-    }
   }
 };
 

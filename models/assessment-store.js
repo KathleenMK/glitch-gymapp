@@ -44,6 +44,10 @@ const assessmentListStore = {
     ];
   },
 
+    /*
+  Returns the value of the given measurement as per the latest 
+  assessment for a user
+  */
   getUserLatestMeasurement(userid, measurement) {
     const latestAssessment = assessmentListStore.getUserLatestAssessment(
       userid
@@ -69,6 +73,12 @@ const assessmentListStore = {
     this.store.save();
   },
 
+    /*
+  If assessments exist for a user, iterates through assessments
+  and determines whether the assessment weight is less than or equal to 
+  the previous assessment weight (or starting weight for the first 
+  assessment) and if so trend is set to true, otherwise its false.
+  */
   calculateUserTrend(userid, userStartingWeight) {
     logger.info("calculating user assessment trends");
     const assessments = assessmentListStore.getUserAssessments(userid);

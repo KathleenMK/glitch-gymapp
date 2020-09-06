@@ -46,7 +46,7 @@ const accounts = {
     const trainer = trainerstore.getTrainerByEmail(request.body.email);
     if (user) {
       if (user.password === request.body.password) {
-        //password===true required so that null is not deemed a match
+        //password=== required so that null is not deemed a match
         response.cookie("playlist", user.email);
         logger.info(`logging in ${user.email}`);
         response.redirect("/dashboard");

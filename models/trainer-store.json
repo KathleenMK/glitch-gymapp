@@ -1,14 +1,14 @@
 {
   "trainers": [
     {
-      "name": "Ms Trainer",
+      "name": "Tammy Trainer",
       "email": "trainer@gmail.com",
-      "password": "pop"
+      "password": "boom"
     },
     {
-      "name": "Mr Trainer",
-      "email": "mrtrainer@gmail.com",
-      "password": "pop"
+      "name": "Thomas Trainer",
+      "email": "thomas@gmail.com",
+      "password": "boom"
     }
   ]
 }

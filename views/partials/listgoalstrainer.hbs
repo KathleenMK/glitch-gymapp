@@ -67,7 +67,11 @@
                  {{percentTargetAchieved}}% of target achieved
                {{/if}}
             </div>
-            <div class="item">{{daysRemaining}} days remaining</div>
+            <div class="item">
+             {{#if achieved}}
+                 {{daysRemaining}} days remaining
+               {{/if}}
+            </div>
             <div class="item">
               {{#if addedBy}}
                 added by {{addedBy}}

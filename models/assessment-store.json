@@ -53,19 +53,6 @@
       "comment": ""
     },
     {
-      "id": "2846ae60-ef7e-11ea-bb79-c752d79d5dc6",
-      "userid": "0ef69dc0-eec6-11ea-afe3-337894ee8d3a",
-      "date": "Sat, 05 Sep 2020 13:46:10 GMT",
-      "weight": "94",
-      "chest": "44",
-      "thigh": "29",
-      "upperArm": "20",
-      "waist": "30",
-      "hips": "44",
-      "trend": true,
-      "comment": "Keep up the training..."
-    },
-    {
       "id": "e47d57d0-ef85-11ea-bd86-a7a0cd18243f",
       "userid": "1e918fa0-eec7-11ea-afe3-337894ee8d3a",
       "date": "Sat, 05 Sep 2020 14:41:33 GMT",
@@ -88,8 +75,8 @@
       "upperArm": "20",
       "waist": "30",
       "hips": "44",
-      "trend": false,
-      "comment": ""
+      "trend": true,
+      "comment": "test"
     }
   ]
 }

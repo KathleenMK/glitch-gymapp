@@ -1,3 +1,95 @@
 {
-  "assessmentCollection": []
+  "assessmentCollection": [
+    {
+      "id": "da308690-eec6-11ea-afe3-337894ee8d3a",
+      "userid": "a3a13d90-eec6-11ea-afe3-337894ee8d3a",
+      "date": "Fri, 04 Sep 2020 15:54:01 GMT",
+      "weight": "99",
+      "chest": "40",
+      "thigh": "30",
+      "upperArm": "20",
+      "waist": "40",
+      "hips": "45",
+      "trend": true,
+      "comment": "Great start Billy!"
+    },
+    {
+      "id": "cf363400-eec7-11ea-afe3-337894ee8d3a",
+      "userid": "1e918fa0-eec7-11ea-afe3-337894ee8d3a",
+      "date": "Fri, 04 Sep 2020 16:00:53 GMT",
+      "weight": "44.8",
+      "chest": "35",
+      "thigh": "25",
+      "upperArm": "20",
+      "waist": "29",
+      "hips": "32",
+      "trend": true,
+      "comment": ""
+    },
+    {
+      "id": "1a0f1d10-ef7d-11ea-8656-9d39147647b3",
+      "userid": "0ef69dc0-eec6-11ea-afe3-337894ee8d3a",
+      "date": "Sat, 05 Sep 2020 13:38:37 GMT",
+      "weight": "101",
+      "chest": "45",
+      "thigh": "30",
+      "upperArm": "20",
+      "waist": "30",
+      "hips": "45",
+      "trend": false,
+      "comment": ""
+    },
+    {
+      "id": "5bbd3b20-ef7d-11ea-8656-9d39147647b3",
+      "userid": "1e918fa0-eec7-11ea-afe3-337894ee8d3a",
+      "date": "Sat, 05 Sep 2020 13:40:27 GMT",
+      "weight": "44",
+      "chest": "36",
+      "thigh": "26",
+      "upperArm": "20",
+      "waist": "30",
+      "hips": "33",
+      "trend": true,
+      "comment": ""
+    },
+    {
+      "id": "2846ae60-ef7e-11ea-bb79-c752d79d5dc6",
+      "userid": "0ef69dc0-eec6-11ea-afe3-337894ee8d3a",
+      "date": "Sat, 05 Sep 2020 13:46:10 GMT",
+      "weight": "94",
+      "chest": "44",
+      "thigh": "29",
+      "upperArm": "20",
+      "waist": "30",
+      "hips": "44",
+      "trend": true,
+      "comment": "Keep up the training..."
+    },
+    {
+      "id": "e47d57d0-ef85-11ea-bd86-a7a0cd18243f",
+      "userid": "1e918fa0-eec7-11ea-afe3-337894ee8d3a",
+      "date": "Sat, 05 Sep 2020 14:41:33 GMT",
+      "weight": "45.35",
+      "chest": "36",
+      "thigh": "26",
+      "upperArm": "20",
+      "waist": "30",
+      "hips": "33",
+      "trend": false,
+      "comment": ""
+    },
+    {
+      "id": "8128bb70-ef94-11ea-9ac4-09268c328075",
+      "userid": "0ef69dc0-eec6-11ea-afe3-337894ee8d3a",
+      "date": "Sat, 05 Sep 2020 16:26:08 GMT",
+      "weight": "95",
+      "chest": "43",
+      "thigh": "29",
+      "upperArm": "20",
+      "waist": "30",
+      "hips": "44",
+      "trend": false,
+      "comment": ""
+    }
+  ]
 }

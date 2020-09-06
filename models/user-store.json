@@ -1,3 +1,37 @@
 {
-  "users": []
+  "users": [
+    {
+      "name": "Kathleen MK",
+      "gender": "female",
+      "email": "kathleen@gmail.com",
+      "password": "pop",
+      "address": "The Glen",
+      "height": "1.89",
+      "startingWeight": "100",
+      "id": "0ef69dc0-eec6-11ea-afe3-337894ee8d3a",
+      "countAssessments": 3
+    },
+    {
+      "name": "Billy Murphy",
+      "gender": "male",
+      "email": "billy@gmail.com",
+      "password": "pop",
+      "address": "The Glen",
+      "height": "2.1",
+      "startingWeight": "120",
+      "id": "a3a13d90-eec6-11ea-afe3-337894ee8d3a",
+      "countAssessments": 1
+    },
+    {
+      "name": "Martha Marks",
+      "gender": "female",
+      "email": "martha@gmail.com",
+      "password": "pop",
+      "address": "42 Killin Hill",
+      "height": "1.35",
+      "startingWeight": "45.39",
+      "id": "1e918fa0-eec7-11ea-afe3-337894ee8d3a",
+      "countAssessments": 3
+    }
+  ]
 }

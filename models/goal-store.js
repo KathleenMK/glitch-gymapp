@@ -34,6 +34,10 @@ const goalListStore = {
     return this.store.findBy(this.collection, { userid: userid });
   },
 
+  /*
+  Iterates through the user goals and if open is added to
+  an array of open goals, determines how the goal is displayed
+  */
   getUserOpenGoals(userid) {
     const goals = goalListStore.getUserGoals(userid);
     const openGoals = [];
@@ -42,10 +46,13 @@ const goalListStore = {
         openGoals.push(goals[i]);
       }
     }
-
     return openGoals;
   },
 
+  /*
+  Iterates through the user goals and if not open(missed or achieved)
+  is added to an array of closed goals, determines how the goal is displayed
+  */
   getUserClosedGoals(userid) {
     const goals = goalListStore.getUserGoals(userid);
     const closedGoals = [];
@@ -54,7 +61,6 @@ const goalListStore = {
         closedGoals.push(goals[i]);
       }
     }
-
     return closedGoals;
   },
 
@@ -62,12 +68,10 @@ const goalListStore = {
     return goalListStore.getUserGoals(userid).length;
   },
 
-  updateComment(goal, newComment) {
-    logger.info("updating the comment from store");
-    goal.comment = newComment;
-    this.store.save();
-  },
-
+  /*
+  if the goal status is open recalculates the diff between the
+  target date and todays date as days remaining
+  */
   daysRemaining(userid) {
     const goals = goalListStore.getUserGoals(userid);
     const date = new Date();
@@ -75,26 +79,21 @@ const goalListStore = {
       if (goals[i].status === "open") {
         goals[i].daysRemaining = Math.ceil(
           (Date.parse(goals[i].targetDate) - Date.parse(date)) /
-            (1000 * 24 * 60 * 60)
+            (1000 * 24 * 60 * 60) //converts difference in dates from seconds to days
         );
-        //goals[i].daysRemaining = goals[i].targetDate-date;
       }
     }
   },
 
-  calcStatus(userid) {
-    const goals = goalListStore.getUserGoals(userid);
-
-    for (let i = 0; i < goals.length; i++) {
-      if (goals[i].daysRemaining < 0) {
-        goals[i].status = "closed";
-      } else {
-        goals[i].status = "open";
-      }
-    }
-  },
-
-  //need to calculate for all measurements, not just weight
+  /*
+  Iterates through the goals for a given user to calculate the status (open, missed 
+  or achieved) of that goal based on the latest assessment
+  Only considers goals that are still open
+  If the percent target achieved is >=100 or the target measurement is
+  exactly the latest measurement the goal is deemed achieved, if not
+  achieved and the days remaining are less than zero the goal is deeemed
+  missed, otherwise it remains open
+ */
   calcStatus(userid, latestAssessment) {
     const goals = goalListStore.getUserGoals(userid);
 
@@ -105,6 +104,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.weight
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -117,6 +117,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.chest
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -129,6 +130,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.thigh
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -141,6 +143,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.upperArm
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -153,6 +156,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.waist
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -165,6 +169,7 @@ const goalListStore = {
           goals[i].target === latestAssessment.hips
         ) {
           goals[i].status = "achieved";
+          goals[i].achieved = true;
         } else if (goals[i].daysRemaining < 0) {
           goals[i].status = "missed";
         }
@@ -172,15 +177,11 @@ const goalListStore = {
     }
   },
 
-  clearPercentTargetAchieved(userid) {
-    const goals = goalListStore.getUserGoals(userid);
-    //const date = new Date();
-
-    for (let i = 0; i < goals.length; i++) {
-      goals[i].percentTargetAchieved = 0;
-    }
-  },
-
+    /*
+  Iterates through the user goals and if open and the starting 
+  measurment is greater than zero, the starting measurement minus
+  the latest over the starting minus the target is the % achieved
+  */
   calcPercentTargetAchieved(userid, latestAssessment) {
     const goals = goalListStore.getUserGoals(userid);
     //const date = new Date();
@@ -198,9 +199,6 @@ const goalListStore = {
               (parseFloat(goals[i].startingMeasurement) -
                 parseFloat(goals[i].target)))
         );
-        //= parseFloat(goals[i].startingMeasurement)-parseFloat(latestAssessment.weight);
-        ///
-        ///(parseFloat(goals[i].startingMeasurement)-parseFloat(goals[i].target));
       } else if (
         goals[i].measurement === "chest" &&
         goals[i].startingMeasurement > 0 &&
@@ -264,30 +262,6 @@ const goalListStore = {
       }
     }
   }
-
-  //   calculateUserTrend(userid, userStartingWeight) {
-  //     logger.info("calculating user assessment trends");
-  //     const assessments = assessmentListStore.getUserAssessments(userid);
-  //     if (assessments.length > 0) {
-  //       if (parseFloat(assessments[0].weight) <= parseFloat(userStartingWeight)) {
-  //         assessments[0].trend = true;
-  //       } else {
-  //         assessments[0].trend = false;
-  //       }
-
-  //       for (let i = 1; i < assessments.length; i++) {
-  //         if (
-  //           parseFloat(assessments[i].weight) <=
-  //           parseFloat(assessments[i - 1].weight)
-  //         ) {
-  //           assessments[i].trend = true;
-  //         } else {
-  //           assessments[i].trend = false;
-  //         }
-  //       }
-  //       this.store.save();
-  //     }
-  //   }
 };
 
 module.exports = goalListStore;
